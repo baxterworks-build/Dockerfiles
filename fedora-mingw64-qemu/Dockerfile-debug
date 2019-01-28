@@ -1,6 +1,6 @@
 FROM voltagex/fedora-mingw64-qemu
 #strace here means using --cap-add SYS_PTRACE from docker run
-RUN yum install --assumeyes git strace
+RUN dnf install -v --assumeyes git-core strace && dnf clean all
 RUN git clone https://github.com/baxterworks-build/qemu
 WORKDIR qemu
 RUN git checkout azure
