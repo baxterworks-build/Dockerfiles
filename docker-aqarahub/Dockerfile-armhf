@@ -1,23 +1,27 @@
 FROM debian:buster-slim
-RUN apt update && apt install -y --no-install-recommends curl tar xz-utils cmake make git perl bzip2 
+RUN apt update && apt install -y --no-install-recommends curl tar xz-utils cmake make git perl bzip2 gcc
 RUN curl -kL https://developer.arm.com/-/media/Files/downloads/gnu-a/8.2-2019.01/gcc-arm-8.2-2019.01-x86_64-arm-linux-gnueabihf.tar.xz | tar -Jxf -
 
 ENV PATH="/gcc-arm-8.2-2019.01-x86_64-arm-linux-gnueabihf/bin/:${PATH}"
 
+RUN mkdir -p /usr/src/
+WORKDIR /usr/src
 
 RUN curl -kL https://www.openssl.org/source/openssl-1.1.1a.tar.gz | tar -zxf -
-WORKDIR /openssl-1.1.1a
+WORKDIR /usr/src/openssl-1.1.1a
 RUN CROSS_COMPILE=arm-linux-gnueabihf- ./Configure linux-armv4 --prefix=/usr
 RUN make -j`nproc`
 RUN make install_sw
 
 
-RUN curl -LOJ https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2 # if I had curl piped to tar -jxf -, this didn't work
-RUN tar -jxf boost_1_69_0.tar.bz2
-WORKDIR /boost_1_69_0
-RUN ./bootstrap.sh
-#RUN sed -i 's/using gcc/using gcc : arm : arm-linux-gnueabihf-gcc/g' project-config.jam
-#RUN ./b2 toolset=gcc-arm link=static -j`nproc`
+WORKDIR /usr/src/
+RUN curl -kL https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2 | tar -jxf -
+RUN ls /usr/src/
+WORKDIR /usr/src/boost_1_69_0
+RUN ./bootstrap.sh; exit 0
+RUN cat *.log
+RUN sed -i 's/using gcc/using gcc : arm : arm-linux-gnueabihf-gcc/g' project-config.jam
+RUN ./b2 toolset=gcc-arm link=static -j`nproc`
 
 #RUN GIT_SSL_NO_VERIFY=1 git clone --recursive https://github.com/Frans-Willem/AqaraHub
 #WORKDIR /AqaraHub
