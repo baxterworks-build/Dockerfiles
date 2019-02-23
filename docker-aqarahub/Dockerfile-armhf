@@ -12,7 +12,7 @@ RUN make -j`nproc`
 RUN make install_sw
 
 
-RUN wget https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2 # if I had curl piped to tar -jxf -, this didn't work
+RUN curl -LOJ https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2 # if I had curl piped to tar -jxf -, this didn't work
 RUN tar -jxf boost_1_69_0.tar.bz2
 WORKDIR /boost_1_69_0
 RUN ./bootstrap.sh
