@@ -20,8 +20,8 @@ WORKDIR /usr/src/
 WORKDIR /usr/src/boost_1_69_0
 RUN ./bootstrap.sh
 RUN sed -i 's/using gcc/using gcc : arm : arm-linux-gnueabihf-gcc/g' project-config.jam
-RUN ./b2 toolset=gcc-arm -j`nproc` --prefix=/opt/arm/
-RUN ./b2 toolset=gcc-arm -j`nproc` --prefix=/opt/arm/ install
+RUN ./b2 toolset=gcc-arm -j`nproc` abi=aapcs cxxstd=14 --with-regex --with-system --with-program_options --with-log --with-coroutine --with-test --prefix=/opt/arm/
+RUN ./b2 toolset=gcc-arm -j`nproc` abi=aapcs cxxstd=14 --with-regex --with-system --with-program_options --with-log --with-coroutine --with-test --prefix=/opt/arm/ install
 
 WORKDIR /usr/src/
 WORKDIR /usr/src/AqaraHub
