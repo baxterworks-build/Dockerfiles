@@ -33,4 +33,5 @@ RUN make -j`nproc`
 
 RUN mkdir /output
 RUN cp -v AqaraHub /output/
+RUN cp -v ../clusters.info /output/
 ENTRYPOINT tar --create /output
