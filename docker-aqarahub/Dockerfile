@@ -31,3 +31,6 @@ ADD armv7.cmake /
 RUN cmake -DCMAKE_TOOLCHAIN_FILE=/armv7.cmake ..
 RUN make -j`nproc`
 
+RUN mkdir /output
+RUN cp -v AqaraHub /output/
+ENTRYPOINT tar --create /output
