@@ -23,9 +23,14 @@ ENV LDFLAGS="-static -L/opt/mips64/lib/"
 #with any other combination of host/target/build/build cc, I got an x86_64 copy of ncursesw.a
 RUN ./configure --disable-stripping --disable-shared --enable-static \
 	--host=mips64-buildroot-linux-musl --with-build-cc="x86_64-buildroot-linux-musl-gcc -static" --prefix=/opt/mips64 \
-	--enable-pc-files --enable-widec
-RUN make -j
-RUN make install 1> /dev/null
+	--enable-pc-files --enable-widec \
+	#should allow nano to work without any termcap/terminfo installed
+	--disable-database --with-fallbacks=rxvt,xterm \
+	--disable-db-install 1> /dev/null
+	#https://lists.gnu.org/archive/html/bug-ncurses/2018-01/msg00050.html
+	#solves error with "run_tic.sh"
+RUN make -j 1> /dev/null
+RUN make install 1> /dev/null;
 WORKDIR /usr/src
 ENV PKG_CONFIG_PATH=/opt/mips64-n32--musl--stable-2018.11-1/lib/pkgconfig
 
@@ -37,7 +42,5 @@ RUN make install
 
 RUN mkdir /output
 RUN cp /opt/mips64/bin/* /output
-RUN mkdir -p /output/usr/share/terminfo/x
-RUN cp /opt/mips64/share/terminfo/x/xterm /output/usr/share/terminfo/x
 ENTRYPOINT tar --create /output
 
