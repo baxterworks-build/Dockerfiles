@@ -1,7 +1,12 @@
 FROM fedora:latest
 RUN echo fastestmirror=1 >> /etc/dnf/dnf.conf
+
+#as close to apt update as I can get
+RUN dnf check-update &> /dev/null || true
+
 # https://bgstack15.wordpress.com/2017/05/13/dnf-ignore-weak-dependencies/
-RUN dnf install --setopt=install_weak_deps=False --assumeyes  git mingw64-gcc mingw64-binutils cmake && dnf clean all
+# https://stackoverflow.com/questions/33124261/usr-bin-mingw32-cmake-line-84-fg-no-job-control-midori-cross-compiling-erro
+RUN dnf install --setopt=install_weak_deps=False --assumeyes git cmake make mingw64-gcc mingw64-binutils mingw64-libusbx && dnf clean all
 
 RUN mkdir src
 WORKDIR /src
@@ -10,5 +15,5 @@ RUN git clone https://github.com/osmocom/rtl-sdr
 RUN mkdir /src/rtl-sdr/build
 WORKDIR /src/rtl-sdr/build
 
-# https://stackoverflow.com/questions/51509173/how-can-i-make-cmake-use-mingw-w64-gcc-g
-RUN cmake -G "MinGW Makefiles"
+RUN mingw64-cmake ..
+RUN mingw64-make install
