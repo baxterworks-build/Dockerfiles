@@ -4,6 +4,7 @@ steps:
 - name: docker  
   image: plugins/docker
   settings:
+    username: voltagex
     auth:
       from_secret: docker_auth
     repo: voltagex/fedora-mingw64-rtlsdr
