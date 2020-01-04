@@ -9,3 +9,5 @@ steps:
       from_secret: docker_auth
     repo: voltagex/fedora-mingw64-rtlsdr
     dockerfile: fedora-mingw64-rtlsdr/Dockerfile
+    debug: true
+    launch_debug: true
