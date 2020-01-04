@@ -4,7 +4,7 @@ steps:
 - name: docker  
   image: plugins/docker
   settings:
-    #auth:
-      #from_secret: docker_auth
-    #repo: foo/bar
+    auth:
+      from_secret: docker_auth
+    repo: voltagex/fedora-mingw64-rtlsdr
     dockerfile: fedora-mingw64-rtlsdr/Dockerfile
