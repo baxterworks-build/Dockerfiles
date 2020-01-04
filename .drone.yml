@@ -1,0 +1,8 @@
+steps:
+- name: docker  
+  image: plugins/docker
+  settings:
+    #auth:
+      #from_secret: docker_auth
+    #repo: foo/bar
+    dockerfile: drone-test/Dockerfile
