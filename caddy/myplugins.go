@@ -12,6 +12,12 @@ import (
 
 	// dns.gandiv5
 	_ "github.com/caddyserver/dnsproviders/gandiv5"
+
+	// dns.cloudflare
+	_ "github.com/caddyserver/dnsproviders/cloudflare"
+
+	// http.filter
+	_ "github.com/echocat/caddy-filter"
 )
 
 func main() {
