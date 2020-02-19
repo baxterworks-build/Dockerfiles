@@ -8,7 +8,7 @@ WORKDIR /usr/src
 
 RUN curl -kL https://www.openssl.org/source/openssl-1.1.1a.tar.gz | tar -zxf -
 RUN curl -kL https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2 | tar -jxf -
-RUN GIT_SSL_NO_VERIFY=1 git clone --recursive https://github.com/Frans-Willem/AqaraHub
+RUN GIT_SSL_NO_VERIFY=1 git clone --branch feature/inform-device-join --recursive https://github.com/Frans-Willem/AqaraHub
 
 WORKDIR /usr/src/openssl-1.1.1a
 RUN CROSS_COMPILE=arm-linux-gnueabihf- ./Configure linux-armv4 --prefix=/opt/arm/
@@ -23,7 +23,6 @@ RUN sed -i 's/using gcc/using gcc : arm : arm-linux-gnueabihf-gcc/g' project-con
 RUN ./b2 toolset=gcc-arm -j`nproc` abi=aapcs cxxstd=14 --with-regex --with-system --with-program_options --with-log --with-coroutine --with-test --prefix=/opt/arm/
 RUN ./b2 toolset=gcc-arm -j`nproc` abi=aapcs cxxstd=14 --with-regex --with-system --with-program_options --with-log --with-coroutine --with-test --prefix=/opt/arm/ install
 
-WORKDIR /usr/src/
 WORKDIR /usr/src/AqaraHub
 RUN mkdir build
 WORKDIR /usr/src/AqaraHub/build

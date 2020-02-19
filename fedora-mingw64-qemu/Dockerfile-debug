@@ -3,5 +3,5 @@ FROM voltagex/fedora-mingw64-qemu
 RUN dnf install -v --assumeyes git-core strace && dnf clean all
 RUN git clone https://github.com/baxterworks-build/qemu
 WORKDIR qemu
-RUN git checkout azure
+RUN git checkout drone
 #RUN bash drone-helper.sh
